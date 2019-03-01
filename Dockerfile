@@ -33,7 +33,7 @@ RUN \
   for plugin in $(curl -s https://grafana.net/api/plugins?orderBy=name | jq '.items[] | select(.internal=='false') | .slug' | tr -d '"'); do grafana-cli --pluginsDir "${GF_PLUGIN_DIR}" plugins install $plugin; done;
   ### branding && \
 RUN \
-  sed -i 's#<title>Grafana</title>#<title>Grafana MCI</title>#g' /usr/share/grafana/public/views/index.template.html && \
+#  sed -i 's#<title>Grafana</title>#<title>Grafana MCI</title>#g' /usr/share/grafana/public/views/index.template.html && \
   sed -i 's#<title>Grafana</title>#<title>Grafana MCI</title>#g' /usr/share/grafana/public/views/index.html && \
   sed -i 's#<title>Grafana - Error</title>#<title>Grafana MCI - Error</title>#g' /usr/share/grafana/public/views/error.html && \
   sed -i 's#icon-gf-grafana_wordmark"></i>#icon-gf-grafana_wordmark"> MCI</i>#g' /usr/share/grafana/public/app/partials/login.html && \
