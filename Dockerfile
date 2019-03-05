@@ -1,5 +1,5 @@
 FROM debian:stretch
-MAINTAINER Anton Ustiuzhanin exbico.com
+MAINTAINER Anton Ustiuzhanin exbico.com124
 
 ARG GRAFANA_ARCHITECTURE=amd64
 ARG GRAFANA_VERSION=6.0.0
