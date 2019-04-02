@@ -2,11 +2,11 @@ FROM debian:stretch
 MAINTAINER Anton Ustiuzhanin
 
 ARG GRAFANA_ARCHITECTURE=amd64
-ARG GRAFANA_VERSION=6.0.0
+ARG GRAFANA_VERSION=6.1.0
 ARG GOSU_RELEASE=1.11
 ARG GRAFANA_DEB_URL=https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana_${GRAFANA_VERSION}_${GRAFANA_ARCHITECTURE}.deb
 ARG GOSU_BIN_URL=https://github.com/tianon/gosu/releases/download/${GOSU_RELEASE}/gosu-${GRAFANA_ARCHITECTURE}
-ARG GRAFANA_TITLE=Grafana MCI
+ARG GRAFANA_TITLE="Grafana MCI"
 
 ### GRAFANA_VERSION=latest = nightly build
 ENV \
