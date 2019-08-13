@@ -8,16 +8,6 @@ pipeline:
     when:
       branch: master
 
-  ssh:
-    image: appleboy/drone-ssh
-    settings:
-      host: localhost
-      username: ustiuzhanin
-      port: 22
-      key: [ ssh_key ]
-      script:
-        - echo hello
-
   telegram:
     image: appleboy/drone-telegram
     token: [ telegram_token ]
