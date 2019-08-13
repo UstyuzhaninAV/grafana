@@ -14,7 +14,6 @@ pipeline:
     to: [ telegram_id ]
     message: >
       {{#success build.status}}
-        build {{build.link}}
         Good job.
       {{else}}
         Fix me please....
