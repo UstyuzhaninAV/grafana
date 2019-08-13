@@ -14,14 +14,10 @@ pipeline:
     to: [ telegram_id ]
     message: >
       {{#success build.status}}
-        {{build.started}} - {{build.finished}}
-        duration {{since build.started}}
         build {{build.link}}
         Good job.
         {{commit.message}} - {{commit.link}}
       {{else}}
-        {{build.started}} - {{build.finished}}
-        duration {{since build.started}}
         Fix me please.
         {{commit.message}} - {{commit.link}}.
       {{/success}}
