@@ -18,6 +18,6 @@ pipeline:
         Good job.
         {{commit.message}} - {{commit.link}}
       {{else}}
-        Fix me please.
+        Fix me please....
         {{commit.message}} - {{commit.link}}.
       {{/success}}
