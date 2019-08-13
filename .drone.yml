@@ -14,7 +14,29 @@ pipeline:
     to: [ telegram_id ]
     message: >
       {{#success build.status}}
-        Good job.
+      ✅ Build #{{build.number}} of `{{repo.name}}` succeeded.
+
+
+      📝 Commit by {{commit.author}} on `{{commit.branch}}`:
+
+      ```
+      {{commit.message}}
+      ```
+
+
+      🌐 {{ build.link }}
       {{else}}
-        Fix me please....
+      ❌ Build #{{build.number}} of `{{repo.name}}` failed.
+
+
+      📝 Commit by {{commit.author}} on `{{commit.branch}}`:
+
+      ```
+      {{commit.message}}
+      ```
+
+
+      🌐 {{ build.link }}
       {{/success}}
+    when:
+      status: [ success, failure ]
