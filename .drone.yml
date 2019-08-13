@@ -16,8 +16,6 @@ pipeline:
       {{#success build.status}}
         build {{build.link}}
         Good job.
-        {{commit.message}} - {{commit.link}}
       {{else}}
         Fix me please....
-        {{commit.message}} - {{commit.link}}.
       {{/success}}
