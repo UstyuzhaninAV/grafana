@@ -41,7 +41,7 @@ RUN \
   chmod +x /run.sh && \
   mkdir -p /usr/share/grafana/.aws/ && \
   touch /usr/share/grafana/.aws/credentials && \
-  apt-get remove -y --force-yes curl git jq && \
+  apt-get remove -y --force-yes git jq && \
   apt-get autoremove -y --force-yes && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
