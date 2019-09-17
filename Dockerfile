@@ -6,7 +6,7 @@ ARG GRAFANA_VERSION=6.3.5
 ARG GOSU_RELEASE=1.11
 ARG GRAFANA_DEB_URL=https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana_${GRAFANA_VERSION}_${GRAFANA_ARCHITECTURE}.deb
 ARG GOSU_BIN_URL=https://github.com/tianon/gosu/releases/download/${GOSU_RELEASE}/gosu-${GRAFANA_ARCHITECTURE}
-ARG GRAFANA_TITLE=Grafana_MCI
+ARG GRAFANA_TITLE=Grafana
 
 ### GRAFANA_VERSION=latest = nightly build
 ENV \
@@ -35,8 +35,8 @@ RUN \
   ### branding && \
 RUN \
 #  sed -i 's#<title>Grafana</title>#<title>${GRAFANA_TITLE}</title>#g' /usr/share/grafana/public/views/index.template.html && \
-  sed -i 's#<title>Grafana</title>#<title>${GRAFANA_TITLE}</title>#g' /usr/share/grafana/public/views/index.html && \
-  sed -i 's#<title>Grafana - Error</title>#<title>${GRAFANA_TITLE} - Error</title>#g' /usr/share/grafana/public/views/error.html && \
+  sed -i 's#<title>Grafana</title>#<title>Grafana</title>#g' /usr/share/grafana/public/views/index.html && \
+  sed -i 's#<title>Grafana - Error</title>#<title>Grafana - Error</title>#g' /usr/share/grafana/public/views/error.html && \
   sed -i 's#icon-gf-grafana_wordmark"></i>#icon-gf-grafana_wordmark"> MCI</i>#g' /usr/share/grafana/public/app/partials/login.html && \
   chmod +x /run.sh && \
   mkdir -p /usr/share/grafana/.aws/ && \
