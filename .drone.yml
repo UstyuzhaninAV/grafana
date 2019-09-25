@@ -15,8 +15,9 @@ pipeline:
     auto_tag: true
     secrets: [ docker_username, docker_password ]
     when:
-      event: [push, tag]
-      ref: [ refs/heads/master, /refs/tags/* ]
+      branch: master
+      # event: [push, tag]
+      # ref: [ refs/heads/master, /refs/tags/* ]
 
   telegram:
     image: appleboy/drone-telegram
