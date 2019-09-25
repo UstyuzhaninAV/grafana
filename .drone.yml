@@ -6,7 +6,8 @@ pipeline:
     auto_tag: true
     secrets: [ docker_username, docker_password ]
     when:
-      branch: master
+      branch: [ master ]
+      event: [ push ]
 
   docker-build-publish:
     image: plugins/docker
@@ -15,8 +16,7 @@ pipeline:
     auto_tag: true
     secrets: [ docker_username, docker_password ]
     when:
-      event: [push, tag]
-      ref: [ refs/heads/master, /refs/tags/* ]
+      event: [ tag ]
 
   telegram:
     image: appleboy/drone-telegram
