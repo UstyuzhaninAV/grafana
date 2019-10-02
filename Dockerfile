@@ -2,7 +2,7 @@ FROM debian:stretch-slim
 MAINTAINER Anton Ustiuzhanin
 
 ARG GRAFANA_ARCHITECTURE=amd64
-ARG GRAFANA_VERSION=6.4.0
+ARG GRAFANA_VERSION=6.4.1
 ARG GOSU_RELEASE=1.11
 ARG GRAFANA_DEB_URL=https://dl.grafana.com/oss/release/grafana_${GRAFANA_VERSION}_${GRAFANA_ARCHITECTURE}.deb
 ARG GOSU_BIN_URL=https://github.com/tianon/gosu/releases/download/${GOSU_RELEASE}/gosu-${GRAFANA_ARCHITECTURE}
@@ -35,18 +35,17 @@ RUN \
   apt-get autoremove -y --force-yes && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/* && \
-  for plugin in $(curl -s https://grafana.net/api/plugins | jq '.items[] | select(.internal=='false') | .slug' | tr -d '"' | sort); do grafana-cli --pluginsDir "${GF_PLUGIN_DIR}" plugins install $plugin; done;
-
+  #for plugin in $(curl -s https://grafana.net/api/plugins | jq '.items[] | select(.internal=='false') | .slug' | tr -d '"' | sort); do grafana-cli --pluginsDir "${GF_PLUGIN_DIR}" plugins install $plugin; done;
+  for plugin in $(grafana-cli plugins list-remote | awk -F ":" '{print $2}' | awk '{print $1}' | awk 'NF > 0');  do grafana-cli --pluginsDir "${GF_PLUGIN_DIR}" plugins install $plugin; done;
   ### branding && \
 RUN \
   set -ex && \
-#  sed -i 's#<title>Grafana</title>#<title>${GRAFANA_TITLE}</title>#g' /usr/share/grafana/public/views/index.template.html && \
-  sed -i 's#<title>Grafana</title>#<title>Grafana</title>#g' /usr/share/grafana/public/views/index.html && \
-  sed -i 's#<title>Grafana - Error</title>#<title>Grafana - Error</title>#g' /usr/share/grafana/public/views/error.html && \
-  sed -i 's#icon-gf-grafana_wordmark"></i>#icon-gf-grafana_wordmark"> MCI</i>#g' /usr/share/grafana/public/app/partials/login.html && \
+  # sed -i 's#<title>Grafana</title>#<title>Grafana</title>#g' /usr/share/grafana/public/views/index.html && \
+  # sed -i 's#<title>Grafana - Error</title>#<title>Grafana - Error</title>#g' /usr/share/grafana/public/views/error.html && \
+  # sed -i 's#icon-gf-grafana_wordmark"></i>#icon-gf-grafana_wordmark"> MCI</i>#g' /usr/share/grafana/public/app/partials/login.html && \
   chmod +x /run.sh && \
-  mkdir -p /usr/share/grafana/.aws/ && \
-  touch /usr/share/grafana/.aws/credentials && \
+  # mkdir -p /usr/share/grafana/.aws/ && \
+  # touch /usr/share/grafana/.aws/credentials && \
   apt-get remove -y --force-yes git jq && \
   apt-get autoremove -y --force-yes && \
   apt-get clean && \
@@ -55,5 +54,5 @@ RUN \
 VOLUME ["/var/lib/grafana", "/var/log/grafana", "/etc/grafana"]
 
 EXPOSE 3000
-
+USER grafana
 ENTRYPOINT ["/run.sh"]
