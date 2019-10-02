@@ -8,7 +8,6 @@ ARG GRAFANA_DEB_URL=https://dl.grafana.com/oss/release/grafana_${GRAFANA_VERSION
 ARG GOSU_BIN_URL=https://github.com/tianon/gosu/releases/download/${GOSU_RELEASE}/gosu-${GRAFANA_ARCHITECTURE}
 ARG GRAFANA_TITLE=Grafana
 
-### GRAFANA_VERSION=latest = nightly build
 ENV \
   GRAFANA_ARCHITECTURE=${GRAFANA_ARCHITECTURE} \
   GRAFANA_VERSION=${GRAFANA_VERSION} \
@@ -35,17 +34,17 @@ RUN \
   apt-get autoremove -y --force-yes && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/* && \
-  #for plugin in $(curl -s https://grafana.net/api/plugins | jq '.items[] | select(.internal=='false') | .slug' | tr -d '"' | sort); do grafana-cli --pluginsDir "${GF_PLUGIN_DIR}" plugins install $plugin; done;
-  for plugin in $(grafana-cli plugins list-remote | awk -F ":" '{print $2}' | awk '{print $1}' | awk 'NF > 0');  do grafana-cli --pluginsDir "${GF_PLUGIN_DIR}" plugins install $plugin; done;
-  ### branding && \
+  #install panels
+  for plugin in $(curl -s https://grafana.net/api/plugins | jq '.items[] | select(.typeName=="Panel") | .slug ' | tr -d '"' | sort); do grafana-cli --pluginsDir "${GF_PLUGIN_DIR}" plugins install $plugin; done;
+  #install datasource
+  for plugin in $(curl -s https://grafana.net/api/plugins | jq '.items[] | select(.typeName=="Data Source") | .slug ' | tr -d '"' | grep -xwi --color 'prometheus\|influxdb|'); do grafana-cli --pluginsDir "${GF_PLUGIN_DIR}" plugins install $plugin; done;
+  #install zabbix app
+  for plugin in $(curl -s https://grafana.net/api/plugins | jq '.items[] | select(.typeName=="Application") | .slug ' | tr -d '"' | sort | grep -wi --color 'zabbix'); do grafana-cli --pluginsDir "${GF_PLUGIN_DIR}" plugins install $plugin; done;
+  #install all
+  #for plugin in $(grafana-cli plugins list-remote | awk -F ":" '{print $2}' | awk '{print $1}' | awk 'NF > 0');  do grafana-cli --pluginsDir "${GF_PLUGIN_DIR}" plugins install $plugin; done;
 RUN \
   set -ex && \
-  # sed -i 's#<title>Grafana</title>#<title>Grafana</title>#g' /usr/share/grafana/public/views/index.html && \
-  # sed -i 's#<title>Grafana - Error</title>#<title>Grafana - Error</title>#g' /usr/share/grafana/public/views/error.html && \
-  # sed -i 's#icon-gf-grafana_wordmark"></i>#icon-gf-grafana_wordmark"> MCI</i>#g' /usr/share/grafana/public/app/partials/login.html && \
   chmod +x /run.sh && \
-  # mkdir -p /usr/share/grafana/.aws/ && \
-  # touch /usr/share/grafana/.aws/credentials && \
   apt-get remove -y --force-yes git jq && \
   apt-get autoremove -y --force-yes && \
   apt-get clean && \
