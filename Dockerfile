@@ -57,5 +57,5 @@ RUN \
 VOLUME ["/var/lib/grafana", "/var/log/grafana", "/etc/grafana"]
 
 EXPOSE 3000
-USER grafana
+
 ENTRYPOINT ["/run.sh"]
