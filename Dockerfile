@@ -24,6 +24,7 @@ ENV \
 COPY ./run.sh /run.sh
 
 RUN \
+  set -ex && \
   apt-get update && \
   apt-get -y --allow-change-held-packages --no-install-recommends install libfontconfig curl ca-certificates git jq && \
   curl -L ${GRAFANA_DEB_URL} > /tmp/grafana.deb && \
@@ -37,6 +38,7 @@ RUN \
   rm -rf /var/lib/apt/lists/*
   ### branding && \
 RUN \
+  set -ex && \
 #  sed -i 's#<title>Grafana</title>#<title>${GRAFANA_TITLE}</title>#g' /usr/share/grafana/public/views/index.template.html && \
   sed -i 's#<title>Grafana</title>#<title>Grafana</title>#g' /usr/share/grafana/public/views/index.html && \
   sed -i 's#<title>Grafana - Error</title>#<title>Grafana - Error</title>#g' /usr/share/grafana/public/views/error.html && \
