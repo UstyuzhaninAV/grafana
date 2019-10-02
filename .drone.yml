@@ -1,5 +1,5 @@
 pipeline:
-  docker-build-publish:
+  docker-build-publish-prod:
     image: plugins/docker
     dockerfile: Dockerfile
     repo: ustiuzhanin/grafana
@@ -8,7 +8,7 @@ pipeline:
     when:
       branch: master
 
-  docker-build-publish:
+  docker-build-publish-test:
     image: plugins/docker
     dockerfile: Dockerfile
     repo: ustiuzhanin/grafana
@@ -16,7 +16,7 @@ pipeline:
     secrets: [ docker_username, docker_password ]
     when:
       ref:
-      - refs/heads/**
+      - refs/heads/6*
 
   telegram:
     image: appleboy/drone-telegram
