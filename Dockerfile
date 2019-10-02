@@ -34,12 +34,16 @@ RUN \
   apt-get autoremove -y --force-yes && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/* && \
+RUN \
   #install panels
   for plugin in $(curl -s https://grafana.net/api/plugins | jq '.items[] | select(.typeName=="Panel") | .slug ' | tr -d '"' | sort); do grafana-cli --pluginsDir "${GF_PLUGIN_DIR}" plugins install $plugin; done;
+RUN \
   #install datasource
   for plugin in $(curl -s https://grafana.net/api/plugins | jq '.items[] | select(.typeName=="Data Source") | .slug ' | tr -d '"' | grep -xwi --color 'prometheus\|influxdb|'); do grafana-cli --pluginsDir "${GF_PLUGIN_DIR}" plugins install $plugin; done;
+RUN \
   #install zabbix app
   for plugin in $(curl -s https://grafana.net/api/plugins | jq '.items[] | select(.typeName=="Application") | .slug ' | tr -d '"' | sort | grep -wi --color 'zabbix'); do grafana-cli --pluginsDir "${GF_PLUGIN_DIR}" plugins install $plugin; done;
+#RUN \
   #install all
   #for plugin in $(grafana-cli plugins list-remote | awk -F ":" '{print $2}' | awk '{print $1}' | awk 'NF > 0');  do grafana-cli --pluginsDir "${GF_PLUGIN_DIR}" plugins install $plugin; done;
 RUN \
