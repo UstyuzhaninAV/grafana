@@ -35,7 +35,7 @@ RUN \
   apt-get autoremove -y --force-yes && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/* && \
-  for plugin in $(curl -s https://grafana.net/api/plugins?orderBy=name | jq '.items[] | select(.internal=='false') | .slug' | tr -d '"'); do grafana-cli --pluginsDir "${GF_PLUGIN_DIR}" plugins install $plugin; done;
+  for plugin in $(curl -s https://grafana.net/api/plugins | jq '.items[] | select(.internal=='false') | .slug' | tr -d '"' | sort); do grafana-cli --pluginsDir "${GF_PLUGIN_DIR}" plugins install $plugin; done;
 
   ### branding && \
 RUN \
