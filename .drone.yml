@@ -1,9 +1,5 @@
-kind: pipeline
-type: docker
-name: default
-
-steps:
-  - name: docker-build-publish-prod:
+pipeline:
+  docker-build-publish-prod:
     image: plugins/docker
     dockerfile: Dockerfile
     repo: ustiuzhanin/grafana
@@ -12,7 +8,7 @@ steps:
     when:
       branch: master
 
-  - name: docker-build-publish-test:
+  docker-build-publish-test:
     image: plugins/docker
     dockerfile: Dockerfile
     repo: ustiuzhanin/grafana
@@ -22,7 +18,7 @@ steps:
       ref:
       - refs/heads/6*
 
-  - name: telegram:
+  telegram:
     image: appleboy/drone-telegram
     token:
       from_secret: telegram_token
