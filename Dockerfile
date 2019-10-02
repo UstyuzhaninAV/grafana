@@ -37,9 +37,9 @@ RUN \
 RUN \
   #install panels
   for plugin in $(curl -s https://grafana.net/api/plugins | jq '.items[] | select(.typeName=="Panel") | .slug ' | tr -d '"' | sort); do grafana-cli --pluginsDir "${GF_PLUGIN_DIR}" plugins install $plugin; done;
-RUN \
-  #install datasource
-  for plugin in $(curl -s https://grafana.net/api/plugins | jq '.items[] | select(.typeName=="Data Source") | .slug ' | tr -d '"' | grep -xwi --color 'prometheus\|influxdb'); do grafana-cli --pluginsDir "${GF_PLUGIN_DIR}" plugins install $plugin; done;
+# RUN \
+#   #install datasource
+#   for plugin in $(curl -s https://grafana.net/api/plugins | jq '.items[] | select(.typeName=="Data Source") | .slug ' | tr -d '"' | grep -xwi --color 'prometheus\|influxdb'); do grafana-cli --pluginsDir "${GF_PLUGIN_DIR}" plugins install $plugin; done;
 RUN \
   #install zabbix app
   for plugin in $(curl -s https://grafana.net/api/plugins | jq '.items[] | select(.typeName=="Application") | .slug ' | tr -d '"' | sort | grep -wi --color 'zabbix'); do grafana-cli --pluginsDir "${GF_PLUGIN_DIR}" plugins install $plugin; done;
