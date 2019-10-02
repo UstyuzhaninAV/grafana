@@ -33,9 +33,9 @@ RUN \
   curl -L ${GOSU_BIN_URL} > /usr/sbin/gosu && \
   chmod +x /usr/sbin/gosu && \
   for plugin in $(curl -s https://grafana.net/api/plugins?orderBy=name | jq '.items[] | select(.internal=='false') | .slug' | tr -d '"'); do grafana-cli --pluginsDir "${GF_PLUGIN_DIR}" plugins install $plugin; done;
-  apt-get autoremove -y --force-yes && \
-  apt-get clean && \
-  rm -rf /var/lib/apt/lists/*
+  # apt-get autoremove -y --force-yes && \
+  # apt-get clean && \
+  # rm -rf /var/lib/apt/lists/*
   ### branding && \
 RUN \
   set -ex && \
