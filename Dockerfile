@@ -1,4 +1,4 @@
-FROM debian:stretch-slim
+FROM debian:buster-slim
 MAINTAINER Anton Ustiuzhanin
 
 ARG GRAFANA_ARCHITECTURE=amd64
