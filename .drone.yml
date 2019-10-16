@@ -25,6 +25,20 @@ pipeline:
       ref:
       - refs/tags/*
 
+  ssh:
+    image: appleboy/drone-ssh
+    settings:
+      host: zabbix.mci.ebc.one
+      username:
+        from_secret: ssh_username
+      key:
+        from_secret: ssh_key
+      port: 22
+      script:
+        - echo hello
+        - id
+        - ls -la
+
   telegram:
     image: appleboy/drone-telegram
     token:
