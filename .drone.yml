@@ -16,7 +16,9 @@ pipeline:
       - echo "The current branch is ${DRONE_BRANCH}"
       - echo "The current commit hash is ${DRONE_COMMIT_SHA}"
       - echo "The image tag is ${DRONE_BRANCH//\//-}-${DRONE_COMMIT_SHA:0:8}"
-      
+    when:
+      branch:
+      - master  
   docker-build-publish-test:
     image: plugins/docker
     dockerfile: Dockerfile
