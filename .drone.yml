@@ -18,7 +18,8 @@ pipeline:
       - echo "The image tag is ${DRONE_BRANCH//\//-}-${DRONE_COMMIT_SHA:0:8}"
     when:
       branch:
-      - master  
+      - master
+
   docker-build-publish-test:
     image: plugins/docker
     dockerfile: Dockerfile
