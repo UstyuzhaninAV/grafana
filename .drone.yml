@@ -10,6 +10,13 @@ pipeline:
       branch:
       - master
 
+  docker-tag-demo:
+    image: debian:stable-slim
+    commands:
+      - echo "The current branch is ${DRONE_BRANCH}"
+      - echo "The current commit hash is ${DRONE_COMMIT_SHA}"
+      - echo "The image tag is ${DRONE_BRANCH//\//-}-${DRONE_COMMIT_SHA:0:8}"
+      
   docker-build-publish-test:
     image: plugins/docker
     dockerfile: Dockerfile
@@ -39,27 +46,27 @@ pipeline:
         - id
         - ls -la
 
-  telegram:
-    image: appleboy/drone-telegram
-    token:
-      from_secret: telegram_token
-    to:
-      from_secret: telegram_id
-    message: >
-      {{#success build.status}}
-      ✅ Build #{{build.number}} of `{{repo.name}}` succeeded.
-      📝 Commit by {{commit.author}} on `{{commit.branch}}`:
-      ```
-      {{commit.message}}
-      ```
-      🌐 {{ build.link }}
-      {{else}}
-      ❌ Build #{{build.number}} of `{{repo.name}}` failed.
-      📝 Commit by {{commit.author}} on `{{commit.branch}}`:
-      ```
-      {{commit.message}}
-      ```
-      🌐 {{ build.link }}
-      {{/success}}
-    when:
-      status: [ success, failure ]
+  # telegram:
+  #   image: appleboy/drone-telegram
+  #   token:
+  #     from_secret: telegram_token
+  #   to:
+  #     from_secret: telegram_id
+  #   message: >
+  #     {{#success build.status}}
+  #     ✅ Build #{{build.number}} of `{{repo.name}}` succeeded.
+  #     📝 Commit by {{commit.author}} on `{{commit.branch}}`:
+  #     ```
+  #     {{commit.message}}
+  #     ```
+  #     🌐 {{ build.link }}
+  #     {{else}}
+  #     ❌ Build #{{build.number}} of `{{repo.name}}` failed.
+  #     📝 Commit by {{commit.author}} on `{{commit.branch}}`:
+  #     ```
+  #     {{commit.message}}
+  #     ```
+  #     🌐 {{ build.link }}
+  #     {{/success}}
+  #   when:
+  #     status: [ success, failure ]
